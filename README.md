@@ -30,7 +30,7 @@ SQL Highlight: Implemented complex Self-Joins with inequality conditions to prev
 
 📸 Dashboard Preview
 
-
+[![View Project]https://github.com/nitinvishwakarma/E-Commerce-Retail-Analytics-Engine-Project-Alpha-/blob/main/Screenshot%201%20%E2%80%94%20E-Commerce%20Retail%20dashboard.png]
 
 💻 Database Schema
 
