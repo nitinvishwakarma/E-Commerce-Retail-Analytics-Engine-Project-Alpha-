@@ -1,4 +1,9 @@
 # E-Commerce SQL Analytics Suite | RFM • Market Basket • Pareto Analysis
+## 📋 Project Documentation
+- **[Problem Statement](PROBLEM_STATEMENT.md)** - Business pain points and success metrics
+- **[Solution Architecture](SOLUTION_ARCHITECTURE.md)** - Technical design decisions and data flow
+- **[Data Dictionary](data-dictionary.md)** - Schema documentation and field definitions
+-------------------------------------------------------------------------------------------------------------
 
 **Business Context:** End-to-end customer analytics for an e-commerce platform ($11M+ GMV simulated)  
 **Tech Stack:** Microsoft SQL Server • T-SQL • Window Functions • CTEs  
