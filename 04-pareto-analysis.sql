@@ -7,42 +7,44 @@
 CREATE OR ALTER VIEW vw_Pareto_Analysis_cumulative AS
 
 WITH CategoryRevenue AS (
-    -- STEP 1: Calculate total revenue per category
-
-	SELECT	oit.ProductID,p.CategoryName, SUM(oit.price) AS TotalRevenue
-	FROM Order_Items AS oit
-	JOIN Products AS p ON oit.ProductID = p.ProductID
-	GROUP BY oit.ProductID,p.CategoryName
-	),
+    -- STEP 1: Calculate total true revenue strictly per category
+    SELECT  
+        p.CategoryName, 
+        SUM(oit.Price + oit.FreightValue) AS TotalRevenue
+    FROM Order_Items AS oit
+    JOIN Products AS p ON oit.ProductID = p.ProductID
+    GROUP BY p.CategoryName
+),
 	
-	CumulativeTotals AS (
+CumulativeTotals AS (
     -- STEP 2: Calculate the running total and the grand total
-	SELECT	CategoryName,
-			TotalRevenue,
-			-- Running total of revenue
-			SUM(TotalRevenue) over (ORDER BY TotalRevenue DESC ROWS UNBOUNDED PRECEDING) AS RunningTotalRevenue,
-			-- Grand Total revenue for percentage calc
-			SUM(TotalRevenue) over() AS GrandTotalRevenue
-
-	FROM CategoryRevenue
-	)
+    SELECT  
+        CategoryName,
+        TotalRevenue,
+        -- Running total of revenue
+        SUM(TotalRevenue) OVER (ORDER BY TotalRevenue DESC ROWS UNBOUNDED PRECEDING) AS RunningTotalRevenue,
+        -- Grand Total revenue for percentage calc
+        SUM(TotalRevenue) OVER () AS GrandTotalRevenue
+    FROM CategoryRevenue
+)
 
 -- STEP 3: Calculate the cumulative percentage
-	SELECT	CategoryName,
-			TotalRevenue,
-			RunningTotalRevenue,
-			GrandTotalRevenue,
-			-- Cumulative percentage (the Pareto line) and round it to 2 decimal places
-			CAST((RunningTotalRevenue / GrandTotalRevenue) * 100.0 AS DECIMAL(5,2)) AS CumulativePercentage
+SELECT  
+    CategoryName,
+    TotalRevenue,
+    RunningTotalRevenue,
+    GrandTotalRevenue,
+    -- Cumulative percentage (the Pareto line) rounded to 2 decimal places
+    CAST((RunningTotalRevenue / GrandTotalRevenue) * 100.0 AS DECIMAL(5,2)) AS CumulativePercentage
+FROM CumulativeTotals;
 
-	FROM  CumulativeTotals;
+GO
 
 -- ==============================================================================
 -- TEST THE VIEW
 -- ==============================================================================
 -- Run the line below. Look at the "CumulativePercentage" column!
-
-SELECT * FROM vw_Pareto_Analysis_cumulative ORDER BY TotalRevenue DESC
+SELECT * FROM vw_Pareto_Analysis_cumulative ORDER BY TotalRevenue DESC;
 
 
 
