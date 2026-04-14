@@ -1,50 +1,52 @@
 # Data Dictionary
 
-The database schema consists of 5 interconnected tables that handle customer details, transactions, product catalog, and feedback.
+The database schema consists of 5 interconnected tables that handle customer demographics, transactions, product details, and reviews.
 
-### 1. `Customers` [DIMENTION TABLE]
-Contains demographic and contact information for buyers.
+### 1. `Customers` [DIMENSION TABLE]
+Enables demographic segmentation and cohort grouping.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `customer_id` | STRING (PK) | Unique identifier for the customer. |
-| `customer_name` | STRING | Full name of the customer. |
-| `email` | STRING | Contact email address. |
-| `location` | STRING | Geographic location (City/State/Country). |
+| `CustomerID` | INT (PK) | Unique identifier (Identity 1,1). |
+| `CustomerCity` | VARCHAR(100) | Customer's city. |
+| `CustomerState` | CHAR(2) | 2-letter state code. |
+| `RegistrationDate` | DATE | Date the customer joined. |
 
 ### 2. `Orders` [FACT TABLE]
-Tracks high-level order events and ties transactions to specific customers. 
+Central fact table linking customers to temporal purchasing behavior.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `order_id` | STRING (PK) | Unique identifier for the order. |
-| `customer_id` | STRING (FK) | Links to the `Customers` table. |
-| `order_date` | DATE | Date the order was placed. |
-| `order_status` | STRING | Current state of the order (e.g., Delivered, Shipped, Cancelled). |
+| `OrderID` | INT (PK) | Unique order identifier. |
+| `CustomerID` | INT (FK) | Links to `Customers` table. |
+| `OrderDate` | DATETIME | Timestamp of purchase. |
+| `DeliveryDate` | DATETIME | Timestamp of delivery. |
+| `OrderStatus` | VARCHAR(50) | Current state (e.g., Delivered, Shipped). |
 
 ### 3. `Order_Items` [FACT TABLE]
-Breaks down each order into individual line items. This table is crucial for monetary calculations and joins with `Orders` using `order_id`.
+Provides granular monetary data for revenue tracking and market basket combinations.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `order_item_id` | STRING (PK) | Unique identifier for the line item. |
-| `order_id` | STRING (FK) | Links to the `Orders` table. |
-| `product_id` | STRING (FK) | Links to the `Products` table. |
-| `quantity` | INTEGER | Number of units purchased in this specific line item. |
-| `unit_price` | DECIMAL | Price of the product at the time of purchase. |
+| `OrderItemID` | INT (PK) | Unique identifier for the line item. |
+| `OrderID` | INT (FK) | Links to `Orders` table. |
+| `ProductID` | INT (FK) | Links to `Products` table. |
+| `SellerID` | INT | Identifier for the specific seller. |
+| `Price` | DECIMAL(10,2) | Base price of the item. |
+| `FreightValue` | DECIMAL(10,2) | Shipping/freight cost applied. |
 
-### 4. `Products` [DIMENTION TABLE]
-Holds the details for the e-commerce inventory.
+### 4. `Products` [DIMENSION TABLE]
+Facilitates category-level performance tracking and inventory optimization.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `product_id` | STRING (PK) | Unique identifier for the product. |
-| `product_name` | STRING | Name of the item. |
-| `category` | STRING | Product category (e.g., Electronics, Apparel). |
-| `cost_price` | DECIMAL | Base cost of the product. |
+| `ProductID` | INT (PK) | Unique identifier. |
+| `CategoryName` | VARCHAR(100) | Product category classification. |
+| `Weight_grams` | DECIMAL(10,2) | Physical weight. |
+| `Dimensions_cm` | VARCHAR(50) | Physical dimensions. |
 
-### 5. `Reviews` [DIMENTION TABLE]
-Captures customer feedback and ratings for purchased products.
+### 5. `Reviews` [FACT TABLE]
+Primary data source for qualitative sentiment analysis and satisfaction modeling.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `review_id` | STRING (PK) | Unique identifier for the review. |
-| `product_id` | STRING (FK) | Links to the `Products` table. |
-| `customer_id` | STRING (FK) | Links to the `Customers` table. |
-| `rating` | INTEGER | Numerical score given by the customer (e.g., 1-5). |
-| `review_text` | STRING | Written feedback provided by the customer. |
+| `ReviewID` | INT (PK) | Unique review identifier. |
+| `OrderID` | INT (FK) | Links back to the specific `Orders` record. |
+| `ReviewScore` | INT | Rating strictly enforced between 1 and 5. |
+| `ReviewText` | NVARCHAR(MAX) | Written customer feedback. |
+| `ReviewDate` | DATETIME | Timestamp of the review. |
