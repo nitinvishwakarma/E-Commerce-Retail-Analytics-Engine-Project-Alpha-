@@ -137,11 +137,6 @@ The database schema consists of 5 interconnected tables that handle customer det
 
 ---
 
-## Key Features
-* **RFM Modeling:** Automatically segmenting customers based on their buying behavior.
-* **Pareto Analysis:** Highlighting the products that actually move the needle.
-* **End-to-End Automation:** A seamless pipeline from SQL Server to Power BI.
-
 ## Tech Stack
 * **Database:** SQL Server
 * **Transformation:** SQL
