@@ -4,8 +4,13 @@ Raw data is useless without a story. **Project Alpha** turns messy e-commerce lo
 
 ---
 
-### The Objective
+### 🎯The Objective
 To build an automated analytics engine that takes raw transactional data and delivers a clear, executive-level view of business health, customer segmentation, and inventory performance.
+
+-Segment Customers: Implement an RFM (Recency, Frequency, Monetary) model to categorize customers into actionable marketing cohorts.
+-Optimize Inventory: Execute a Pareto (80/20) analysis to identify the top revenue-driving product categories.
+-Drive Cross-Selling: Develop a Market Basket Analysis engine using complex self-joins to uncover product purchasing affinities.
+-Automate Insights: Deliver a dynamic, parameter-driven reporting layer for executive leadership.
 
 -------------------------------------------------------------------------------------------------------------
 
