@@ -29,7 +29,7 @@ To build an automated analytics engine that takes raw transactional data and del
 ## 📊 Three Business Problems Solved
 
 ### 1. RFM Customer Segmentation (`02-rfm-analysis.sql`)
-**Problem:** Marketing team blasting same offers to all customers → Low ROI  
+**Problem:** Marketing team blasting the same offers to all customers → Low ROI  
 **Solution:** Automated scoring system categorizing customers into Champions, Loyal, At-Risk, Hibernating
 
 **Key SQL Techniques:**
@@ -49,7 +49,7 @@ To build an automated analytics engine that takes raw transactional data and del
 - Category-level affinity scoring
 
 **Insight Generated:**
-Electronics + Books = co-purchase → "Customers buying Bread also buy Butter OR pasta-Sauce" → Cross-sell opportunity on checkout page
+Electronics + Books = co-purchase → Triggers automated "Frequently Bought Together" prompts at checkout.
 
 ---
 
