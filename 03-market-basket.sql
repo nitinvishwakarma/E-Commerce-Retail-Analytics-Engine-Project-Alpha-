@@ -39,7 +39,7 @@ SELECT * FROM vw_MarketBasket_Recommendations_Analysis;
 
 
 -- ==============================================================================
--- old query - not working
+--Below query is an old query - not working
 -- ==============================================================================
 /*
 -- Market Basket Analysis (Association Rules)
