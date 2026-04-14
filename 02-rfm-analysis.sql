@@ -30,12 +30,14 @@ RFMScored AS (
         RecencyDays,
         Frequency,
         MonetaryValue,
-        -- R_Score: 4 = Most recent (best), 1 = Least recent
-        NTILE(4) OVER (ORDER BY RecencyDays ASC) as R_Score,
-        -- F_Score: 4 = Most frequent (best), 1 = Least frequent  
-        NTILE(4) OVER (ORDER BY Frequency DESC) as F_Score,
-        -- M_Score: 4 = Highest spender (best), 1 = Lowest spender
-        NTILE(4) OVER (ORDER BY MonetaryValue DESC) as M_Score
+        -- R_Score: Smaller days is better. Sort DESC to push the smallest days to the bottom (gets a 4).
+        NTILE(4) OVER (ORDER BY RecencyDays DESC) as R_Score,
+        
+        -- F_Score: Higher count is better. Sort ASC to push the highest counts to the bottom (gets a 4).  
+        NTILE(4) OVER (ORDER BY Frequency ASC) as F_Score,
+        
+        -- M_Score: Higher spend is better. Sort ASC to push the highest spend to the bottom (gets a 4).
+        NTILE(4) OVER (ORDER BY MonetaryValue ASC) as M_Score
     FROM CustomerMetrics
 )
 SELECT 
