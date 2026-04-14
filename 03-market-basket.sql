@@ -1,3 +1,47 @@
+-- New query -- Updated Version
+-- ==============================================================================
+-- PROJECT ALPHA: Market Basket Analysis (Cross-Selling / Product Affinity)
+-- Purpose: Identifies pairs of products frequently purchased in the same order 
+-- sing Self-Joins to inform product recommendation algorithms.
+-- ==============================================================================
+
+CREATE OR ALTER VIEW vw_MarketBasket_Recommendations_Analysis AS
+
+SELECT	TOP 100 PERCENT
+		p1.CategoryName AS Product_A,
+		p2.CategoryName AS Product_B,
+		COUNT(oi1.OrderID) AS Times_Bought_Together
+				
+FROM Order_Items oi1
+JOIN Order_Items oi2 
+    ON oi1.OrderID = oi2.OrderID 
+    -- The strictly less than (<) prevents matching a product with itself (e.g., Books-Books) 
+    -- and prevents duplicate mirrored pairs (e.g., Books-Electronics AND Electronics-Books)
+    AND oi1.ProductID < oi2.ProductID
+Join Products AS p1
+	ON oi1.ProductID = p1.ProductID
+Join Products AS p2
+	ON oi2.ProductID = p2.ProductID
+GROUP BY 
+    p1.CategoryName, 
+    p2.CategoryName
+ORDER BY 
+    Times_Bought_Together DESC;
+
+GO
+
+-- ==============================================================================
+-- TEST THE VIEW
+-- ==============================================================================
+-- Run this line to see which product categories are bought together!
+SELECT * FROM vw_MarketBasket_Recommendations_Analysis;
+
+
+
+-- ==============================================================================
+-- old query - not working
+-- ==============================================================================
+/*
 -- Market Basket Analysis (Association Rules)
 -- Purpose: Identify product pairs frequently bought together for cross-selling
 -- Technique: Self-join with inequality to prevent duplicates
@@ -30,4 +74,5 @@ ORDER BY
 -- Business Insight Example:
 -- Electronics + Books bought together 42% of the time
 -- Action: Show "Frequently bought together" book recommendations on electronics pages
+*/
 
