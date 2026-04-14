@@ -1,4 +1,3 @@
-**File: `01-schema-creation.sql`**
 ```sql
 -- E-Commerce Retail Analytics Database Schema
 -- Optimized for Customer Segmentation & Inventory Analysis
