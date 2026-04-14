@@ -46,7 +46,9 @@ SELECT * FROM vw_Pareto_Analysis_cumulative ORDER BY TotalRevenue DESC
 
 
 
-
+-- ==============================================================================
+--Below query is an old query - not working
+-- ==============================================================================
 /*
 -- Pareto Analysis (80/20 Rule)
 -- Purpose: Identify vital few categories driving majority of revenue
