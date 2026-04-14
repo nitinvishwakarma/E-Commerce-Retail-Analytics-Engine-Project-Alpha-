@@ -4,45 +4,17 @@ Raw data is useless without a story. **Project Alpha** turns messy e-commerce lo
 
 ---
 
-# Problem Statement
-
-Retail businesses today are drowning in data but starving for insights. 
-
-### The Challenge
-Most mid-sized e-commerce platforms struggle with:
-* **Static Reporting:** Reliance on manual Excel sheets that are outdated the moment they are shared.
-* **Blind Spots:** Inability to distinguish between high-value loyalists and one-time shoppers.
-* **Data Quality:** Messy transactional logs with missing values and inconsistent formats that lead to "garbage in, garbage out" reporting.
-* **Scalability:** Systems that crawl when trying to process millions of rows of historical data.
-
 ### The Objective
 To build an automated analytics engine that takes raw transactional data and delivers a clear, executive-level view of business health, customer segmentation, and inventory performance.
 
----
-
-# Solution Architecture
-
-This project follows a modern data stack approach to ensure speed, reliability, and clear visualization.
-
-### 1. Data Ingestion & Storage
-* **Source:** Raw e-commerce transaction data (CSVs / SQL Server).
-* **Database:** **SQL Server** All raw data is stored in SQL Server to handle large-scale processing.
-
-### 2. Data Transformation (The Engine)
-* **SQL:** Used for intensive data cleaning, handling nulls, and schema enforcement across our 5 core relational tables (Orders, Order_Items, Customers, Products, Reviews).
-* **Advanced Analytics:** * **RFM Analysis:** Custom SQL scripts to calculate Recency, Frequency, and Monetary scores for every customer.
-    * **Pareto Analysis (80/20 Rule):** Identifying the top 20% of products and customers driving 80% of the revenue.
-
-### 3. Visualization & Reporting
-* **Power BI:** A dynamic, executive-facing dashboard connected directly to SQL Server. 
-* **Insights:** Interactive views for sales trends, customer segments, and regional performance.
-
 -------------------------------------------------------------------------------------------------------------
 
+### The Challenge
 ## 📋 Project Documentation
 - **[Problem Statement](PROBLEM_STATEMENT.md)** - Business pain points and success metrics
 - **[Solution Architecture](SOLUTION_ARCHITECTURE.md)** - Technical design decisions and data flow
 - **[Data Dictionary](data-dictionary.md)** - Schema documentation and field definitions
+  
 -------------------------------------------------------------------------------------------------------------
 
 **Business Context:** End-to-end customer analytics for an e-commerce platform ($11M+ GMV simulated)  
@@ -60,12 +32,6 @@ This project follows a modern data stack approach to ensure speed, reliability, 
 - CTEs for modular calculation (Recency → Frequency → Monetary)
 - Business logic: `CASE` statements translating scores into actionable segments
 
-**Sample Output:**
-| CustomerID | RecencyDays | Frequency | Monetary | RFM_Cell | Segment |
-|------------|-------------|-----------|----------|----------|---------|
-| 101 | 12 | 8 | $2,450 | 444 | **Champions** |
-| 102 | 45 | 2 | $120 | 212 | At Risk |
-
 ---
 
 ### 2. Market Basket Analysis (`03-market-basket.sql`)
@@ -78,8 +44,7 @@ This project follows a modern data stack approach to ensure speed, reliability, 
 - Category-level affinity scoring
 
 **Insight Generated:**
-Electronics + Books = 42% co-purchase rate → "Customers buying laptops also buy technical books" → Cross-sell opportunity on checkout page
-
+Electronics + Books = co-purchase → "Customers buying Bread also buy Butter OR pasta-Sauce" → Cross-sell opportunity on checkout page
 
 ---
 
