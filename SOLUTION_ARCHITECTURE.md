@@ -1,3 +1,16 @@
+# Solution Architecture
+
+This project uses a centralized relational database approach to process and analyze retail data efficiently.
+
+### 1. Database & Storage
+* [cite_start]**RDBMS:** Microsoft SQL Server (`RetailAnalyticsDB`)[cite: 1]. 
+* [cite_start]**Design:** A 5-table normalized schema handling customers, products, sales facts, and qualitative feedback[cite: 3, 5, 7, 9, 11].
+
+### 2. Data Transformation Engine
+The heavy lifting is done server-side using T-SQL Views to ensure reporting tools only pull clean, aggregated metrics.
+* [cite_start]**vw_RFM_Segmentation_analysis:** Uses CTEs and the `NTILE(4)` window function to assign 1-4 scores for Recency, Frequency, and Monetary value, outputting a definitive customer segment[cite: 18, 19].
+* **vw_MarketBasket_Recommendations_Analysis:** Uses strict self-joins on the `Order_Items` table (`ProductID < ProductID`) to prevent duplicate mirrored pairs while finding products bought in the same transaction[cite: 24].
+* [cite_start]**vw_Pareto_Analysis_cumulative:** Chains CTEs to calculate raw revenue, running totals (`SUM OVER UNBOUNDED PRECEDING`), and a final cumulative percentage metric[cite: 27, 28].
 
 ## Schema Design Rationale
 
