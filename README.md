@@ -19,6 +19,7 @@ To build an automated analytics engine that takes raw transactional data and del
 - **[Problem Statement](PROBLEM_STATEMENT.md)** - Business pain points and success metrics
 - **[Solution Architecture](SOLUTION_ARCHITECTURE.md)** - Technical design decisions and data flow
 - **[Data Dictionary](data-dictionary.md)** - Schema documentation and field definitions
+- **[Screenshot](screenshots)** - Screenshot of each analysis
   
 -------------------------------------------------------------------------------------------------------------
 
