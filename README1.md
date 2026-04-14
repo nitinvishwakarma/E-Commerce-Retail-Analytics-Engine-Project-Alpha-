@@ -1,6 +1,6 @@
 # E-Commerce Retail Analytics Engine (Project Alpha)
 
-Raw data is useless without a story. **Project Alpha** turns messy e-commerce logs into high-impact visuals. This engine automates the journey from raw CSVs to executive-level insights using Snowflake, SQL, and Power BI.
+Raw data is useless without a story. **Project Alpha** turns messy e-commerce logs into high-impact visuals. This engine automates the journey from raw CSVs to executive-level insights using SQL Server, Microsoft SQL (SSMS), and Power BI.
 
 ---
 
@@ -26,58 +26,78 @@ This project follows a modern data stack approach to ensure speed, reliability, 
 
 ### 1. Data Ingestion & Storage
 * **Source:** Raw e-commerce transaction data (CSVs / SQL Server).
-* **Data Warehouse:** **Snowflake**. All raw data is staged and stored in a centralized cloud environment to handle large-scale processing.
+* **Database:** **SQL Server** All raw data is stored in SQL Server to handle large-scale processing.
 
 ### 2. Data Transformation (The Engine)
-* **SQL (Snowflake):** Used for intensive data cleaning, handling nulls, and schema enforcement.
+* **SQL:** Used for intensive data cleaning, handling nulls, and schema enforcement across our 5 core relational tables (Orders, Order_Items, Customers, Products, Reviews).
 * **Advanced Analytics:** * **RFM Analysis:** Custom SQL scripts to calculate Recency, Frequency, and Monetary scores for every customer.
     * **Pareto Analysis (80/20 Rule):** Identifying the top 20% of products and customers driving 80% of the revenue.
 
 ### 3. Visualization & Reporting
-* **Power BI:** A dynamic, executive-facing dashboard connected directly to Snowflake. 
+* **Power BI:** A dynamic, executive-facing dashboard connected directly to SQL Server. 
 * **Insights:** Interactive views for sales trends, customer segments, and regional performance.
 
 ---
 
 # Data Dictionary
 
-The following tables form the core of the **Project Alpha** schema.
+The database schema consists of 5 interconnected tables that handle customer details, transactions, product catalog, and feedback.
 
-### Table: `SALES`
-The primary table containing all transactional events.
+### 1. `Customers`
+Contains demographic and contact information for buyers.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `TransactionID` | STRING (PK) | Unique identifier for each order. |
-| `CustomerID` | STRING (FK) | Links to the Customer dimension. |
-| `ProductID` | STRING (FK) | Links to the Product dimension. |
-| `OrderDate` | DATE | Date the transaction occurred. |
-| `Quantity` | INTEGER | Number of items purchased. |
-| `UnitPrice` | DECIMAL | Price per unit at the time of sale. |
-| `TotalAmount` | DECIMAL | (Quantity * UnitPrice) — Primary metric for revenue. |
+| `customer_id` | STRING (PK) | Unique identifier for the customer. |
+| `customer_name` | STRING | Full name of the customer. |
+| `email` | STRING | Contact email address. |
+| `location` | STRING | Geographic location (City/State/Country). |
 
-### Table: `CUSTOMERS`
-Contains descriptive attributes for customer segmentation.
+### 2. `Orders`
+Tracks high-level order events and ties transactions to specific customers. 
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `CustomerID` | STRING (PK) | Unique identifier. |
-| `CustomerName` | STRING | Full name or masked identifier. |
-| `Country` | STRING | Geographic location for regional analysis. |
-| `RFM_Segment` | STRING | Categorization (e.g., "Champion", "At Risk", "New"). |
+| `order_id` | STRING (PK) | Unique identifier for the order. |
+| `customer_id` | STRING (FK) | Links to the `Customers` table. |
+| `order_date` | DATE | Date the order was placed. |
+| `order_status` | STRING | Current state of the order (e.g., Delivered, Shipped, Cancelled). |
 
-### Table: `PRODUCTS`
-Detailed information about the product catalog.
+### 3. `Order_Items`
+Breaks down each order into individual line items. This table is crucial for monetary calculations and joins with `Orders` using `order_id`.
 | Column | Type | Description |
 | :--- | :--- | :--- |
-| `ProductID` | STRING (PK) | Unique identifier. |
-| `ProductName` | STRING | Name of the item. |
-| `Category` | STRING | Product category (Electronics, Home, etc.). |
-| `CostPrice` | DECIMAL | Internal cost used to calculate profit margins. |
+| `order_item_id` | STRING (PK) | Unique identifier for the line item. |
+| `order_id` | STRING (FK) | Links to the `Orders` table. |
+| `product_id` | STRING (FK) | Links to the `Products` table. |
+| `quantity` | INTEGER | Number of units purchased in this specific line item. |
+| `unit_price` | DECIMAL | Price of the product at the time of purchase. |
+
+### 4. `Products`
+Holds the details for the e-commerce inventory.
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `product_id` | STRING (PK) | Unique identifier for the product. |
+| `product_name` | STRING | Name of the item. |
+| `category` | STRING | Product category (e.g., Electronics, Apparel). |
+| `cost_price` | DECIMAL | Base cost of the product. |
+
+### 5. `Reviews`
+Captures customer feedback and ratings for purchased products.
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `review_id` | STRING (PK) | Unique identifier for the review. |
+| `product_id` | STRING (FK) | Links to the `Products` table. |
+| `customer_id` | STRING (FK) | Links to the `Customers` table. |
+| `rating` | INTEGER | Numerical score given by the customer (e.g., 1-5). |
+| `review_text` | STRING | Written feedback provided by the customer. |
 
 ---
 
 ## Key Features
 * **RFM Modeling:** Automatically segmenting customers based on their buying behavior.
 * **Pareto Analysis:** Highlighting the products that actually move the needle.
+* **End-to-End Automation:** A seamless pipeline from SQL Server to Power BI.
 
-## Tech
-* **SQL
+## Tech Stack
+* **Database:** SQL Server
+* **Transformation:** SQL
+* **BI Tool:** Power BI
