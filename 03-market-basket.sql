@@ -1,4 +1,4 @@
--- New query -- Updated Version
+-- This is the new query--updated
 -- ==============================================================================
 -- PROJECT ALPHA: Market Basket Analysis (Cross-Selling / Product Affinity)
 -- Purpose: Identifies pairs of products frequently purchased in the same order 
