@@ -2,7 +2,7 @@
 
 The database schema consists of 5 interconnected tables that handle customer details, transactions, product catalog, and feedback.
 
-### 1. `Customers`
+### 1. `Customers` [DIMENTION TABLE]
 Contains demographic and contact information for buyers.
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -11,7 +11,7 @@ Contains demographic and contact information for buyers.
 | `email` | STRING | Contact email address. |
 | `location` | STRING | Geographic location (City/State/Country). |
 
-### 2. `Orders`
+### 2. `Orders` [FACT TABLE]
 Tracks high-level order events and ties transactions to specific customers. 
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -20,7 +20,7 @@ Tracks high-level order events and ties transactions to specific customers.
 | `order_date` | DATE | Date the order was placed. |
 | `order_status` | STRING | Current state of the order (e.g., Delivered, Shipped, Cancelled). |
 
-### 3. `Order_Items`
+### 3. `Order_Items` [FACT TABLE]
 Breaks down each order into individual line items. This table is crucial for monetary calculations and joins with `Orders` using `order_id`.
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -30,7 +30,7 @@ Breaks down each order into individual line items. This table is crucial for mon
 | `quantity` | INTEGER | Number of units purchased in this specific line item. |
 | `unit_price` | DECIMAL | Price of the product at the time of purchase. |
 
-### 4. `Products`
+### 4. `Products` [DIMENTION TABLE]
 Holds the details for the e-commerce inventory.
 | Column | Type | Description |
 | :--- | :--- | :--- |
@@ -39,7 +39,7 @@ Holds the details for the e-commerce inventory.
 | `category` | STRING | Product category (e.g., Electronics, Apparel). |
 | `cost_price` | DECIMAL | Base cost of the product. |
 
-### 5. `Reviews`
+### 5. `Reviews` [DIMENTION TABLE]
 Captures customer feedback and ratings for purchased products.
 | Column | Type | Description |
 | :--- | :--- | :--- |
