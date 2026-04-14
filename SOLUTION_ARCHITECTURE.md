@@ -3,23 +3,16 @@
 This project uses a centralized relational database approach to process and analyze retail data efficiently.
 
 ### 1. Database & Storage
-* [cite_start]**RDBMS:** Microsoft SQL Server (`RetailAnalyticsDB`)[cite: 1]. 
-* [cite_start]**Design:** A 5-table normalized schema handling customers, products, sales facts, and qualitative feedback[cite: 3, 5, 7, 9, 11].
+**RDBMS:** Microsoft SQL Server (`RetailAnalyticsDB`). 
+**Design:** A 5-table normalized schema handling customers, products, sales facts, and qualitative feedback.
 
 ### 2. Data Transformation Engine
 The heavy lifting is done server-side using T-SQL Views to ensure reporting tools only pull clean, aggregated metrics.
-* [cite_start]**vw_RFM_Segmentation_analysis:** Uses CTEs and the `NTILE(4)` window function to assign 1-4 scores for Recency, Frequency, and Monetary value, outputting a definitive customer segment[cite: 18, 19].
-* **vw_MarketBasket_Recommendations_Analysis:** Uses strict self-joins on the `Order_Items` table (`ProductID < ProductID`) to prevent duplicate mirrored pairs while finding products bought in the same transaction[cite: 24].
-* [cite_start]**vw_Pareto_Analysis_cumulative:** Chains CTEs to calculate raw revenue, running totals (`SUM OVER UNBOUNDED PRECEDING`), and a final cumulative percentage metric[cite: 27, 28].
+**vw_RFM_Segmentation_analysis:** Uses CTEs and the `NTILE(4)` window function to assign 1-4 scores for Recency, Frequency, and Monetary value, outputting a definitive customer segment.
+**vw_MarketBasket_Recommendations_Analysis:** Uses strict self-joins on the `Order_Items` table (`ProductID < ProductID`) to prevent duplicate mirrored pairs while finding products bought in the same transaction[cite: 24].
+**vw_Pareto_Analysis_cumulative:** Chains CTEs to calculate raw revenue, running totals (`SUM OVER UNBOUNDED PRECEDING`), and a final cumulative percentage metric.
 
-## Schema Design Rationale
-
-### Why Star Schema?
-- **Performance:** RFM queries run in <2 seconds vs. 45+ seconds on denormalized tables
-- **Maintainability:** Product attributes change? Update one dimension row, not 150K fact rows
-- **Scalability:** Ready for snowflake extension if product hierarchy deepens
-
-### Why Views vs. Tables?
+### 3. Why Views vs. Tables?
 - **Real-time:** Marketing team sees yesterday's data, not last week's
 - **Storage:** 150K transactions × 3 analyses = expensive materialization; views are compute-on-demand
 - **Flexibility:** Business logic changes? Alter view definition, no ETL pipeline rebuild
