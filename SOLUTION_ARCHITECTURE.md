@@ -3,14 +3,14 @@
 This project uses a centralized relational database approach to process and analyze retail data efficiently.
 
 ### 1. Database & Storage
-**RDBMS:** Microsoft SQL Server (`RetailAnalyticsDB`). 
-**Design:** A 5-table normalized schema handling customers, products, sales facts, and qualitative feedback.
+- **RDBMS:** Microsoft SQL Server (`RetailAnalyticsDB`). 
+- **Design:** A 5-table normalized schema handling customers, products, sales facts, and qualitative feedback.
 
 ### 2. Data Transformation Engine
 The heavy lifting is done server-side using T-SQL Views to ensure reporting tools only pull clean, aggregated metrics.
-**vw_RFM_Segmentation_analysis:** Uses CTEs and the `NTILE(4)` window function to assign 1-4 scores for Recency, Frequency, and Monetary value, outputting a definitive customer segment.
-**vw_MarketBasket_Recommendations_Analysis:** Uses strict self-joins on the `Order_Items` table (`ProductID < ProductID`) to prevent duplicate mirrored pairs while finding products bought in the same transaction[cite: 24].
-**vw_Pareto_Analysis_cumulative:** Chains CTEs to calculate raw revenue, running totals (`SUM OVER UNBOUNDED PRECEDING`), and a final cumulative percentage metric.
+-  **vw_RFM_Segmentation_analysis:** Uses CTEs and the `NTILE(4)` window function to assign 1-4 scores for Recency, Frequency, and Monetary          value, outputting a definitive customer segment.
+-  **vw_MarketBasket_Recommendations_Analysis:** Uses strict self-joins on the `Order_Items` table (`ProductID < ProductID`) to prevent              duplicate mirrored pairs while finding products bought in the same transaction.
+- **vw_Pareto_Analysis_cumulative:** Chains CTEs to calculate raw revenue, running totals (`SUM OVER UNBOUNDED PRECEDING`), and a final             cumulative percentage metric.
 
 ### 3. Why Views vs. Tables?
 - **Real-time:** Marketing team sees yesterday's data, not last week's
